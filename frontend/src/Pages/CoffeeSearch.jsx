@@ -13,7 +13,6 @@ const arr = [
 function CoffeeSearch(){
    
     const [coffeeList, setCoffeeList] = useState([])
-      
     const [text, setText] = useState("")
     const texRef = useRef(null)
 
@@ -33,7 +32,7 @@ function CoffeeSearch(){
     }
 
     function filterCoffee(){
-        if (text.length == 0){
+        if (text.length == 0 ){
             return coffeeList;
         }else{
             return coffeeList.filter((c) => c.name.includes(text))
@@ -45,10 +44,9 @@ function CoffeeSearch(){
     return(
         <div>
             <div>
-                <div>menu</div>
+               
                 <div>
-                    <h1>title</h1>
-                    <h3>sub title</h3>
+                    <h1>ברוכים הבאים לחיפוש הקפה שלנו</h1>
                 </div>
             </div>
             <div>
