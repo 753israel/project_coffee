@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 Home.jsx
 secret_folder/
+requirements.txt
+.venv.*
+

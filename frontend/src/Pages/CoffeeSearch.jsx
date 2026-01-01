@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from "react";
+import CoffeeItem from "../components/CoffeeItem";
 
-const arr = [
-      {id:1, name:"אמריקנו", price:14.99, src:"/Americano.jpeg"},
-        {id:2, name:"אספרסו", price:18.5, src:"/Espresso.jpeg"},
-        {id:3, name:"נגט", price:22.99, src:"/Latte.jpeg"},
-        {id:4, name:"פלט וויט", price:25.30, src:"/FlatWhite.jpeg"},
-        {id:5, name:"הוקה", price:20.99, src:"/Mocha.jpeg"},
-        {id:6, name:"לאטה", price:19.99, src:"/Mikato.jpeg"},
-        {id:7, name:"מיקאטו", price:21.99, src:"/Cappuccino.jpeg"},
+const coffeeListDemo = [
+     {coffeeId:1, name:"אמריקנו", description:"...", price:14.99, image:"/Americano.jpeg"},
+     {coffeeId:2, name:"אספרסו", description:"...", price:18.5, image:"/Espresso.jpeg"},
+     {coffeeId:3, name:"נוגט", description:"...", price:22.99, image:"/Latte.jpeg"},
+     {coffeeId:4, name:"נס על חלב", description:"...", price:25.30, image:"/FlatWhite.jpeg"},
+     {coffeeId:5, name:"הוקה", description:"...", price:20.99, image:"/Mocha.jpeg"},
+     {coffeeId:6, name:"לאטה", description:"...", price:19.99, image:"/Mikato.jpeg"},
+     {coffeeId:7, name:"מיקאטו", description:"...", price:21.99, image:"/Cappuccino.jpeg"},
     ]
 
 function CoffeeSearch(){
@@ -17,7 +18,7 @@ function CoffeeSearch(){
     const texRef = useRef(null)
 
     useEffect(() => {
-        setCoffeeList(arr)
+        setCoffeeList(coffeeListDemo)
       
     },[])
 
@@ -59,7 +60,7 @@ function CoffeeSearch(){
                 <p>about text</p>
             </div>
                 {
-                    filterCoffee().map( (c)=> <CoffeeCard key={c.id} coffee={c}/>)
+                    filterCoffee().map( (c)=> <CoffeeItem key={c.id} coffee={c}/>)
                 }
             <div>
                 <div>menu</div>
@@ -69,15 +70,6 @@ function CoffeeSearch(){
         
     )
 }
-const CoffeeCard = ({coffee}) => {
-    return(
-        <div key={coffee.id}>
-            <img style={{width:'30%'}} src={coffee.src} alt={coffee.name}/>
-            <p>{coffee.name}</p>
-            <div>
-                <span>{coffee.price}</span>
-            </div>
-        </div>
-    )
-}
+
+
 export default CoffeeSearch;

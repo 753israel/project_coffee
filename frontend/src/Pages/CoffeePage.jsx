@@ -19,7 +19,7 @@ function CoffeePage() {
     const id = Number(params.coffeeId);
     const found = coffeeListDemo.find(c => c.coffeeId === id);
     setCoffee(found);
-    console.log(id)
+    
   }, []);
 
   if (!coffee) return <h2>טוען...</h2>;

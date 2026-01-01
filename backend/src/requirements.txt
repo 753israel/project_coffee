@@ -6,3 +6,4 @@ flask_sqlalchemy
 python-dotenv
 pyjwt
 flask_mail
+# pip install -r requirements.txt
