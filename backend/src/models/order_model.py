@@ -1,15 +1,18 @@
 from backend.src.database import db
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
+import datetime
 
 class Order(db.Model):
     __tablename__ = "orders"
     order_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, ForeignKey('users.user_id'), nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     price = db.Column(db.Numeric(10,2), nullable=False)
     coffee_id = db.Column(db.Integer, ForeignKey('coffee.coffee_id'), nullable=False)
     coffee = relationship("Coffee", back_populates="orders")
+    user = relationship("User", back_populates="orders")
+
 
     def to_dict(self):
         order_dict = {}

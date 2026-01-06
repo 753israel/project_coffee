@@ -1,5 +1,5 @@
 from backend.src.database import db
-
+from sqlalchemy.orm import relationship
 
 class User(db.Model):
     __tablename__ = "users"
@@ -9,6 +9,8 @@ class User(db.Model):
     phone = db.Column(db.String, nullable=False)    
     email = db.Column(db.String, nullable=False, unique=True)
     password = db.Column(db.String, nullable=False)
+    orders = relationship("Order", back_populates="user") # קישור לטבלת Order
+
 
 def to_dict(self):
     user_dict = {}
