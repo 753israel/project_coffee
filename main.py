@@ -1,7 +1,7 @@
 from flask_cors import CORS
 from flask import Flask, send_from_directory
 from backend.src.routes.user_route import users_bp
-from backend.src.database import init_database, create_tables, drop_tables
+from backend.database import init_database, create_tables, drop_tables
 import os
 
 # .env לקרוא את תוכן הקובץ

@@ -1,7 +1,7 @@
 from backend.src.models.order_model import Order
 from backend.src.models.user_model import User
 from backend.src.models.coffee_model import Coffee
-from backend.src.database import db
+from backend.database import db
 
 def add_order(order: Order):
 
@@ -27,5 +27,5 @@ def order_from_dict(order_dict: dict):
     return Order.from_dict(order_dict)
 
 
-def order_to_dict(order: User):
-    return order.to_dict()
+def order_to_dict(order: Order):
+    return Order.to_dict()

@@ -3,7 +3,7 @@ import { useState } from "react";
 function Register() {
   
 
-  const [user, setUser] = useState({name:'',phone:'',email:'',password:'',role:'regular'});
+  const [user, setUser] = useState({name:'',phone:'',email:'',password:'',role:'regular',role_password:''});
   const [password2, setPassword2] = useState('');
   const [error, setError] = useState('');
 
@@ -45,6 +45,7 @@ function Register() {
         <input type="email" required name="email" value={user.email} onChange={onChange} placeholder="Enter your email" style={{direction:'rtl'}}/>
         <input type="password" required name="password" value={user.password} onChange={onChange} placeholder="Enter your password" style={{direction:'rtl'}}/>
         <input type="password" required name="password2" value={password2} onChange={onChange} placeholder="Confirm your password" style={{ direction: 'rtl' }} />
+        <input type="role_password" required name="role_password" value={user.role_password} onChange={onChange} placeholder="Confirm your role_password" style={{ direction: 'rtl' }} />
         {error && <p style={{ color: "red" }}>{error}</p>}
 
         <br />

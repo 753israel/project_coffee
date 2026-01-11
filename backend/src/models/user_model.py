@@ -1,4 +1,4 @@
-from backend.src.database import db
+from src.database import db
 from sqlalchemy.orm import relationship
 
 class User(db.Model):

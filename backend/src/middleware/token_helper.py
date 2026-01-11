@@ -26,9 +26,9 @@ def verify_token():
 
     authorization_header = request.headers.get("Authorization")
     if not authorization_header:
-        return jsonify({"error": "missing security data, please login"}), 401
+        return jsonify({"error": "missing security data, please login"}), http_code.HTTP_CODE_NOT_AUTHENTICATED
     if not authorization_header.startswith("Bearer "):
-        return jsonify({"error": "please login"}), 401
+        return jsonify({"error": "please login"}), http_code.HTTP_CODE_NOT_AUTHENTICATED
 
     try:
         token = authorization_header.split(" ")[1]
