@@ -17,12 +17,36 @@ def user_register():
 
         
         if user.role != 'regular' and company_code != secret_key_USER_CODE:
-            return jsonify({"error": "קוד המשתמש לא תקין"}),http_code.HTTP_CODE_INVALID_DATA
+            return jsonify({"error": "Invalid user"}),http_code.HTTP_CODE_INVALID_DATA
         if user.role != 'admin' and company_code != secret_key_ADMIN_CODE:
-             return jsonify({"error": "קוד המנהל לא תקין"}),http_code.HTTP_CODE_INVALID_DATA
+             return jsonify({"error": "Invalid user"}),http_code.HTTP_CODE_INVALID_DATA
         
         add_user = controler.add_user(user)
         if add_user:
             return jsonify(controler.user_to_dict(add_user)),http_code.HTTP_CODE_SUCCESS
-    except:
-        return jsonify({"error":"server error"}),http_code.HTTP_CODE_SERVER_ERROR
+        
+    except ValueError as e:
+        return jsonify({"error": str(e)}), http_code.HTTP_CODE_INVALID_DATA
+    
+
+
+
+@users_bp.route("/login", methods=["POST"])
+def user_login():
+    try:
+        email = request.get_json("email")
+        password = request.get_json("password")
+        user = controler.login_user(email , password)
+
+        if not user:
+            return jsonify({"error": "Invalid user"}), http_code.HTTP_CODE_INVALID_DATA
+        
+        token = token_helper(user)
+        return jsonify(controler.user_to_dict(user), token),http_code.HTTP_CODE_SUCCESS
+    
+    except ValueError as e:
+        return jsonify({"error": str(e)}), http_code.HTTP_CODE_INVALID_DATA
+            
+
+        
+        

@@ -15,16 +15,16 @@ def add_user(user:User):
     db.session.refresh(user)
     return user
 
-def user_exists(user_id: str, email: str) -> bool:
-    try:
-        statement = select(User).where(or_(User.user_id == user_id, User.email == email))
-        user = db.session.execute(statement).first()
-        if user:
-            return True
-        else:
-            return False
-    except:
-        return True
+# def user_exists(user_id: str, email: str) -> bool:
+#     try:
+#         statement = select(User).where(or_(User.user_id == user_id, User.email == email))
+#         user = db.session.execute(statement).first()
+#         if user:
+#             return True
+#         else:
+#             return False
+#     except:
+#         return True
 
 def login_user(email_login: str, password_login: str) -> User:
     user_login = db.session.query(User).filter(User.email == email_login, User.password == password_login).first()
