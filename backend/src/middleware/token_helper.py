@@ -2,12 +2,14 @@ from flask import request, jsonify, g
 import jwt
 from jwt import ExpiredSignatureError, InvalidTokenError
 import datetime
-from datetime import timezone, timedelta  # ווידוא שהכל יובא נכון
+from datetime import timezone, timedelta
+import os
 
 from backend.src.models.user_model import User
 from backend import http_code
 
-secret_key = "os.getenv(\"SECRET_KEY\")"
+# טעינת secret key אמיתי
+secret_key = os.getenv("SECRET_KEY", "default_secret_key")
 
 def generate_token(user: User):
     payload = {
@@ -15,31 +17,39 @@ def generate_token(user: User):
         "role": user.role,
         "exp": datetime.datetime.now(timezone.utc) + timedelta(days=1)
     }
-    token = jwt.encode(payload, secret_key, algorithm="HS256") 
+
+    token = jwt.encode(payload, secret_key, algorithm="HS256")
+
+    # הפיכה ל־string אם צריך
     if isinstance(token, bytes):
-        token = token.encode('utf-8')
+        token = token.decode("utf-8")
+
     return token
+
 
 def verify_token():
     if request.method == "OPTIONS":
         return
 
     authorization_header = request.headers.get("Authorization")
+
     if not authorization_header:
         return jsonify({"error": "missing security data, please login"}), http_code.HTTP_CODE_NOT_AUTHENTICATED
+
     if not authorization_header.startswith("Bearer "):
         return jsonify({"error": "please login"}), http_code.HTTP_CODE_NOT_AUTHENTICATED
 
     try:
         token = authorization_header.split(" ")[1]
-        if isinstance(token, bytes):
-            token = token.decode('utf-8')
 
         decoded_data = jwt.decode(token, secret_key, algorithms=["HS256"])
         g.user = decoded_data
+
     except ExpiredSignatureError:
         return jsonify({"error": "session expired, please login"}), http_code.HTTP_CODE_NOT_AUTHENTICATED
+
     except InvalidTokenError:
         return jsonify({"error": "invalid security, please login"}), http_code.HTTP_CODE_NOT_AUTHENTICATED
-    except:
+
+    except Exception:
         return jsonify({"error": "unknown security, please login"}), http_code.HTTP_CODE_NOT_AUTHENTICATED

@@ -1,5 +1,5 @@
 from backend.src.models.coffee_model import Coffee
-from backend.src.database import db
+from backend.database import db
 
 
 

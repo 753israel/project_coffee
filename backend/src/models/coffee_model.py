@@ -1,4 +1,7 @@
-from src.database import db
+from backend.database import db
+from sqlalchemy.orm import relationship
+
+
 
 
 
@@ -9,6 +12,7 @@ class Coffee(db.Model):
     description = db.Column(db.String, nullable=False)
     image = db.Column(db.String, nullable=False)
     price = db.Column(db.Numeric(10,2), nullable=False)
+    orders = relationship("Order", back_populates="coffee")
 
     def to_dict(self):
         coffee_dict={}

@@ -1,12 +1,17 @@
 import { useState } from "react";
 
+// הוק מותאם אישית לניהול סטטוס קריאות API (טעינה, שגיאה, הודעות)
+import useApiStatus from '../hooks/useApiStatus';
+
+// API לרישום משתמש חדש
+import userApi from '../api/userApi';
 function Register() {
   
 
   const [user, setUser] = useState({name:'',phone:'',email:'',password:'',role:'regular',role_password:''});
   const [password2, setPassword2] = useState('');
   const [error, setError] = useState('');
-
+  const { call,isLoading, message} = useApiStatus();
 
   const onChange = (event) => {
     const value = event.target.value;
@@ -21,20 +26,23 @@ function Register() {
 
   }
 
-  const onSubmit = (event) =>{
-    event.preventDefault() 
-     if (user.password !== password2) {
-      setError("הסיסמאות אינן תואמות");
-      return;
-    }
-
-    setError("");
-    console.log("User registered:", user);
- 
- 
-      console.log(user)
-
+  const onSubmit = async (event) => {
+  event.preventDefault();
+  console.log("SUBMIT!");
+  if (user.password !== password2) {
+    setError("הסיסמאות אינן תואמות");
+    return;
   }
+
+  setError("");
+
+  const response = await call({
+    callbackApi: userApi.register,
+    data: user
+  });
+
+  console.log("User registered:", response);
+};
  
 
   return (
@@ -45,7 +53,7 @@ function Register() {
         <input type="email" required name="email" value={user.email} onChange={onChange} placeholder="Enter your email" style={{direction:'rtl'}}/>
         <input type="password" required name="password" value={user.password} onChange={onChange} placeholder="Enter your password" style={{direction:'rtl'}}/>
         <input type="password" required name="password2" value={password2} onChange={onChange} placeholder="Confirm your password" style={{ direction: 'rtl' }} />
-        <input type="role_password" required name="role_password" value={user.role_password} onChange={onChange} placeholder="Confirm your role_password" style={{ direction: 'rtl' }} />
+        <input type="text" required name="role_password" value={user.role_password} onChange={onChange} placeholder="password company" />
         {error && <p style={{ color: "red" }}>{error}</p>}
 
         <br />

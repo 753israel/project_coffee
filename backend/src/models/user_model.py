@@ -1,5 +1,6 @@
-from src.database import db
+from backend.database import db
 from sqlalchemy.orm import relationship
+
 
 class User(db.Model):
     __tablename__ = "users"
@@ -12,24 +13,24 @@ class User(db.Model):
     orders = relationship("Order", back_populates="user") # קישור לטבלת Order
 
 
-def to_dict(self):
-    user_dict = {}
-    user_dict["user_id"] = self.user_id
-    user_dict["name"] = self.name
-    user_dict["role"] = self.role
-    user_dict["phone"] = self.phone
-    user_dict["email"] = self.email
-    return user_dict
+    def to_dict(self):
+        user_dict = {}
+        user_dict["user_id"] = self.user_id
+        user_dict["name"] = self.name
+        user_dict["role"] = self.role
+        user_dict["phone"] = self.phone
+        user_dict["email"] = self.email
+        return user_dict
 
-@staticmethod
-def from_dict(user_dict: dict):
-    user_id = user_dict.get("user_id",None)
-    name = user_dict["name"]
-    role = user_dict["role"]
-    phone = user_dict["phone"]
-    email = user_dict["email"]
-    password = user_dict["password"]
-    return User(user_id = user_id , name = name ,role = role , phone = phone ,email = email , password = password)
+    @staticmethod
+    def from_dict(user_dict: dict):
+        user_id = user_dict.get("user_id",None)
+        name = user_dict["name"]
+        role = user_dict["role"]
+        phone = user_dict["phone"]
+        email = user_dict["email"]
+        password = user_dict["password"]
+        return User(user_id = user_id , name = name ,role = role , phone = phone ,email = email , password = password)
 
 
 
