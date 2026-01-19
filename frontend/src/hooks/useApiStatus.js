@@ -11,7 +11,7 @@ const useApiStatus = (loading=false) => {
   const navigate = useNavigate();
 
   const call = async ({ callbackApi, id, data }) => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
     try {
       setIsLoading(true);

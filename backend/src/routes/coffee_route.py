@@ -1,5 +1,5 @@
 from flask import Blueprint ,jsonify ,request
-from middleware.token_helper import verify_token
+from backend.src.middleware.token_helper import verify_token
 from werkzeug.utils import secure_filename
 import os
 import uuid
@@ -7,18 +7,23 @@ import backend.src.controlers.coffee_controler as controller_coffee
 from backend import http_code
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-IMAGES = os.path.join(BASE_DIR, 'images')
+IMAGES = os.path.join(BASE_DIR, 'static')
 
-coffee_bp = Blueprint("dishes_bp", __name__, url_prefix="/api/coffee")
+coffee_bp = Blueprint("coffee_bp", __name__, url_prefix="/api/coffee")
 
 
 @coffee_bp.before_request
 def protect():
-    error = verify_token()
-    if error:
-        return error
+    if request.method == "OPTIONS":
+        return None  # לא בודקים טוקן ב־OPTIONS
+
+    user = verify_token()
+    if user is None:
+        return jsonify({"error": "Unauthorized"}), 401
     
-@coffee_bp.route("/", methods=["POST"])
+
+    
+@coffee_bp.route("/new", methods=["POST"])
 def post_coffee():
     try:
         # ממיר את כל ה־form למילון רגיל
@@ -62,9 +67,16 @@ def post_coffee():
 
 @coffee_bp.route("/", methods=["GET"])
 def get_all_coffee():
-    try:
-        all_coffee = controller_coffee.get_all_coffee() or []
-        coffee_list =[coffee.coffee_to_dict() for coffee in all_coffee]
-        return jsonify(coffee_list), http_code.HTTP_CODE_SUCCESS
-    except Exception as e:
-        return jsonify({"error": "Server error", "details": str(e)}), http_code.HTTP_CODE_SERVER_ERROR
+    user = verify_token()
+    if not user:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    all_coffee = controller_coffee.get_all_coffee() or []
+    coffee_list = []
+
+    for coffee in all_coffee:
+        c = coffee.to_dict()
+        c["image"] = c["image"]   # רק השם, בלי /static/
+        coffee_list.append(c)
+
+    return jsonify(coffee_list), 200

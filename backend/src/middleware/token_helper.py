@@ -28,28 +28,19 @@ def generate_token(user: User):
 
 
 def verify_token():
-    if request.method == "OPTIONS":
-        return
-
     authorization_header = request.headers.get("Authorization")
 
     if not authorization_header:
-        return jsonify({"error": "missing security data, please login"}), http_code.HTTP_CODE_NOT_AUTHENTICATED
+        return None
 
     if not authorization_header.startswith("Bearer "):
-        return jsonify({"error": "please login"}), http_code.HTTP_CODE_NOT_AUTHENTICATED
+        return None
 
     try:
         token = authorization_header.split(" ")[1]
-
         decoded_data = jwt.decode(token, secret_key, algorithms=["HS256"])
         g.user = decoded_data
-
-    except ExpiredSignatureError:
-        return jsonify({"error": "session expired, please login"}), http_code.HTTP_CODE_NOT_AUTHENTICATED
-
-    except InvalidTokenError:
-        return jsonify({"error": "invalid security, please login"}), http_code.HTTP_CODE_NOT_AUTHENTICATED
+        return decoded_data
 
     except Exception:
-        return jsonify({"error": "unknown security, please login"}), http_code.HTTP_CODE_NOT_AUTHENTICATED
+        return None

@@ -1,0 +1,83 @@
+.coffee-page {
+  font-family: "Arial", sans-serif;
+  padding: 20px;
+  background: #faf7f2;
+  min-height: 100vh;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.header h1 {
+  font-size: 32px;
+  color: #4a2c2a;
+}
+
+.header p {
+  color: #6b4f4f;
+  font-size: 18px;
+}
+
+/* Search */
+.search-section {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.search-input {
+  padding: 10px 15px;
+  width: 250px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.search-btn {
+  padding: 10px 20px;
+  background: #6b4f4f;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.search-btn:hover {
+  background: #4a2c2a;
+}
+
+/* About */
+.about-section {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.about-section h2 {
+  color: #4a2c2a;
+}
+
+.about-section p {
+  color: #6b4f4f;
+  max-width: 500px;
+  margin: auto;
+}
+
+/* Coffee Grid */
+.coffee-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+  padding: 10px;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  margin-top: 40px;
+  color: #6b4f4f;
+}

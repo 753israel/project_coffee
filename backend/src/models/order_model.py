@@ -2,6 +2,10 @@ from backend.database import db
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 from datetime import datetime, timezone
+from backend.src.models.user_model import User
+from backend.src.models.coffee_model import Coffee
+
+
 
 class Order(db.Model):
     __tablename__ = "orders"

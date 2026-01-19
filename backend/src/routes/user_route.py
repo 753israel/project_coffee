@@ -13,14 +13,12 @@ users_bp = Blueprint("users_bp", __name__, url_prefix="/api/users")
 @users_bp.route("/register", methods=["POST"])
 def user_register():
     try:
-        user_dict = request.get_json()
-
-        secret_key_USER_CODE = os.getenv("USER_CODE")
+        user_dict = request.get_json() # מביא לי את הרישום מריאקט בתור מילון 
+        secret_key_USER_CODE = os.getenv("USER_CODE") 
         secret_key_ADMIN_CODE = os.getenv("ADMIN_CODE")
+        company_code = user_dict.get("role_password") # קוד החברה שנימצא בתוך קובץ env
 
-        company_code = user_dict.get("role_password")
-
-        user = controler.user_from_dict(user_dict)
+        user = controler.user_from_dict(user_dict) # המרה מימלון לאובייקט
 
         if user.role == "regular" and company_code != secret_key_USER_CODE:
             return jsonify({"error": "Invalid user"}), http_code.HTTP_CODE_INVALID_DATA
@@ -48,7 +46,7 @@ def user_login():
         data = request.get_json()
 
         if data is None:
-            return jsonify({"error": "Invalid JSON"}), 400
+            return jsonify({"error": "Invalid JSON"}), http_code.HTTP_CODE_INVALID_DATA
 
         email = data.get("email")
         password = data.get("password")
