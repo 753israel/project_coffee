@@ -1,47 +1,45 @@
+/* קופסה אחידה לכל הדפים */
 .coffee-page {
-  font-family: "Arial", sans-serif;
-  padding: 20px;
-  background: #faf7f2;
-  min-height: 100vh;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin-top: 20px;
+  box-sizing: border-box;
 }
 
-/* Header */
-.header {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
+/* כותרת */
 .header h1 {
-  font-size: 32px;
+  margin: 0;
   color: #4a2c2a;
+  font-size: 28px;
 }
 
 .header p {
   color: #6b4f4f;
-  font-size: 18px;
+  margin-top: 5px;
 }
 
-/* Search */
+/* חיפוש */
 .search-section {
   display: flex;
-  justify-content: center;
   gap: 10px;
-  margin-bottom: 25px;
+  margin: 20px 0;
 }
 
 .search-input {
-  padding: 10px 15px;
-  width: 250px;
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #d6ccc2;
   border-radius: 8px;
-  border: 1px solid #ccc;
   font-size: 16px;
 }
 
 .search-btn {
-  padding: 10px 20px;
   background: #6b4f4f;
   color: white;
   border: none;
+  padding: 10px 18px;
   border-radius: 8px;
   cursor: pointer;
   transition: 0.2s;
@@ -51,33 +49,35 @@
   background: #4a2c2a;
 }
 
-/* About */
-.about-section {
-  text-align: center;
-  margin-bottom: 40px;
-}
-
+/* עלינו */
 .about-section h2 {
   color: #4a2c2a;
 }
 
 .about-section p {
   color: #6b4f4f;
-  max-width: 500px;
-  margin: auto;
 }
 
-/* Coffee Grid */
+/* גריד של הקפה */
 .coffee-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 20px;
-  padding: 10px;
+  margin-top: 20px;
 }
 
-/* Footer */
+/* פוטר */
 .footer {
+  margin-top: 30px;
   text-align: center;
-  margin-top: 40px;
   color: #6b4f4f;
+}
+.coffee-page {
+  max-width: 900px;         /* מגביל את הרוחב */
+  margin: 30px auto;        /* מרכז את הדף */
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-sizing: border-box;
 }

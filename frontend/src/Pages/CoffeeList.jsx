@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import CoffeeItem from "../components/CoffeeItem";
 import coffeeApi from "../api/coffeeApi";
+import './CoffeeList.css'
 
 function CoffeeList() {
   const [coffeeList, setCoffeeList] = useState([]);
@@ -28,11 +29,13 @@ function CoffeeList() {
   }, []);
 
   return (
-    <div>
+   
+    <div className="coffee-list">
       {coffeeList.map(c => (
         <CoffeeItem key={c.coffee_id} coffee={c} />
       ))}
     </div>
+   
   );
 }
 

@@ -17,10 +17,16 @@ def add_coffee(coffee: Coffee):
 
 def get_all_coffee():
     coffee_list = db.session.query(Coffee).all()
+    
 
     if not coffee_list:
         raise ValueError("You don't have a coffee list")
     return coffee_list
+
+def get_coffee_by_id(coffee_id):
+    return Coffee.query.filter_by(coffee_id=coffee_id).first()
+
+
     
 
 def coffee_from_dict(coffee_dict: dict) -> Coffee:

@@ -1,3 +1,4 @@
+
 from flask import Blueprint ,jsonify ,request
 from backend.src.middleware.token_helper import verify_token
 from werkzeug.utils import secure_filename
@@ -80,3 +81,17 @@ def get_all_coffee():
         coffee_list.append(c)
 
     return jsonify(coffee_list), 200
+
+
+@coffee_bp.route("/<int:coffee_id>", methods=["GET"])
+def get_coffee_by_id(coffee_id):
+    print("קיבלתי בקשה ל־ID:", coffee_id)
+    user = verify_token()
+    if not user:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    coffee = controller_coffee.get_coffee_by_id(coffee_id)
+    if not coffee:
+        return jsonify({"error": "Coffee not found"}), 404
+
+    return jsonify(coffee.to_dict()), 200

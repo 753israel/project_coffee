@@ -1,36 +1,48 @@
+import SERVER_API from "../api/serverAddress";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
-const coffeeListDemo = [
-  {coffeeId:1, name:"אמריקנו", description:"...", price:14.99, image:"/Americano.jpeg"},
-  {coffeeId:2, name:"אספרסו", description:"...", price:18.5, image:"/Espresso.jpeg"},
-  {coffeeId:3, name:"נוגט", description:"...", price:22.99, image:"/Latte.jpeg"},
-  {coffeeId:4, name:"נס על חלב", description:"...", price:25.30, image:"/FlatWhite.jpeg"},
-  {coffeeId:5, name:"הוקה", description:"...", price:20.99, image:"/Mocha.jpeg"},
-  {coffeeId:6, name:"לאטה", description:"...", price:19.99, image:"/Mikato.jpeg"},
-  {coffeeId:7, name:"מיקאטו", description:"...", price:21.99, image:"/Cappuccino.jpeg"},
-];
+import coffeeApi from "../api/coffeeApi";
+import "./CoffeePage.css";
 
 function CoffeePage() {
+  const { coffeeId } = useParams();
   const [coffee, setCoffee] = useState(null);
-  const params = useParams();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const id = Number(params.coffeeId);
-    const found = coffeeListDemo.find(c => c.coffeeId === id);
-    setCoffee(found);
-    
-  }, []);
+    async function loadCoffee() {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await coffeeApi.getCoffeeById(coffeeId, token);
+        const data = await res.json();
+        setCoffee(data);
+      } catch (err) {
+        console.error("שגיאה בטעינת הקפה:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
 
-  if (!coffee) return <h2>טוען...</h2>;
+    loadCoffee();
+  }, [coffeeId]);
+
+  if (loading) return <h2>טוען...</h2>;
+  if (!coffee) return <h2>לא נמצא קפה</h2>;
+
+  console.log("coffee:", coffee);
 
   return (
-    <div>
+    <div className="coffee-page">
       <h2>{coffee.name}</h2>
       <p>{coffee.description}</p>
-      <img src={coffee.image} alt={coffee.name} style={{ width: '200px' }} />
-      <br />
-      <code>{coffee.price}</code>
+
+      <img
+        src={`${SERVER_API}/static/${coffee.image}`}
+        alt={coffee.name}
+        className="coffee-image"
+      />
+
+      <h3 className="coffee-price">{coffee.price} ₪</h3>
     </div>
   );
 }

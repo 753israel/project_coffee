@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import coffeeApi from "../api/coffeeApi";
 import useApiStatus from "../hooks/useApiStatus";
 
+import './CreateCoffee.css'
+
 function CreateCoffee() {
   const navigate = useNavigate();
   const [isAuthChecked, setIsAuthChecked] = useState(false);
@@ -63,7 +65,8 @@ function CreateCoffee() {
   if (!isAuthChecked) return <h2>טוען...</h2>;
 
   return (
-    <form onSubmit={onSubmit} style={{ maxWidth: "400px", margin: "auto" }}>
+    
+    <form onSubmit={onSubmit} className="create-coffee-form">
       <h2>הוספת קפה חדש</h2>
 
       <div>
@@ -117,6 +120,7 @@ function CreateCoffee() {
       {error && <p style={{ color: "red" }}>{error}</p>}
       {message && <p style={{ color: "green" }}>{message}</p>}
     </form>
+  
   );
 }
 

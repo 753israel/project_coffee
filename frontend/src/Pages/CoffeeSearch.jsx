@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import CoffeeItem from "../components/CoffeeItem";
 import coffeeApi from "../api/coffeeApi";
+
 import "./CoffeeSearch.css";
 
 function CoffeeSearch() {
@@ -38,7 +39,9 @@ function CoffeeSearch() {
   }
 
   return (
+   
     <div className="coffee-page">
+
 
       <header className="header">
         <h1>☕ ברוכים הבאים לחיפוש הקפה שלנו</h1>
@@ -74,6 +77,7 @@ function CoffeeSearch() {
       </footer>
 
     </div>
+    
   );
 }
 

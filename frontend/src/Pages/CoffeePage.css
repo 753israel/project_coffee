@@ -1,0 +1,23 @@
+.coffee-page {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 30px;
+}
+
+.coffee-page img {
+  width: 220px;
+  border-radius: 10px;
+  margin: 20px auto;
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
+.coffee-page h2,
+.coffee-page p,
+.coffee-page h3 {
+  position: relative;
+  z-index: 2;
+  color: black;
+}

@@ -20,7 +20,7 @@ class Coffee(db.Model):
         coffee_dict["name"] = self.name
         coffee_dict["description"] = self.description
         coffee_dict["image"] = self.image
-        coffee_dict["price"] = self.price
+        coffee_dict["price"] = float(self.price)
         return coffee_dict
 
     @staticmethod
