@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import coffeeApi from "../api/coffeeApi";
 import useApiStatus from "../hooks/useApiStatus";
@@ -7,17 +7,6 @@ import './CreateCoffee.css'
 
 function CreateCoffee() {
   const navigate = useNavigate();
-  const [isAuthChecked, setIsAuthChecked] = useState(false);
-
-  useEffect(() => {
-    const role = localStorage.getItem("role");
-
-    if (role !== "admin") {
-      navigate("/");
-    } else {
-      setIsAuthChecked(true); // עכשיו אפשר להציג את הדף
-    }
-  }, []);
 
   const [coffee, setCoffee] = useState({
     name: "",
@@ -61,11 +50,7 @@ function CreateCoffee() {
     }
   };
 
-  // אם עדיין לא בדקנו הרשאה — מציגים טעינה
-  if (!isAuthChecked) return <h2>טוען...</h2>;
-
   return (
-    
     <form onSubmit={onSubmit} className="create-coffee-form">
       <h2>הוספת קפה חדש</h2>
 
@@ -120,7 +105,6 @@ function CreateCoffee() {
       {error && <p style={{ color: "red" }}>{error}</p>}
       {message && <p style={{ color: "green" }}>{message}</p>}
     </form>
-  
   );
 }
 

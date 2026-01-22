@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import userApi from "../api/userApi";
 
-
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -11,33 +10,33 @@ function Login() {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await userApi.login({
-      data: { email, password }
-    });
+    try {
+      const response = await userApi.login({ email, password });
+      const text = await response.text();
+      const result = JSON.parse(text);
 
-    const result = await response.json();
+      if (!response.ok) {
+        alert(result.error || "שגיאה בהתחברות");
+        return;
+      }
 
-    if (!response.ok) {
-      alert(result.error || "שגיאה בהתחברות");
-      return;
-    }
+      // שמירת המשתמש והטוקן
+      localStorage.setItem("user", JSON.stringify(result.user));
+      localStorage.setItem("token", result.token);
 
-    // שמירת טוקן ותפקיד
-    localStorage.setItem("token", result.token);
-    localStorage.setItem("role", result.user.role);
-
-    alert("התחברת בהצלחה!");
-
-    // ניווט לפי תפקיד
-    if (result.user.role === "admin") {
-      navigate("/coffee/new");
-    } else {
+      // מעבר לדף "הקפה שלנו"
       navigate("/coffee");
+
+      // רענון כדי לעדכן את התפריט
+      window.location.reload();
+
+    } catch (err) {
+      console.error("FETCH ERROR:", err);
+      alert("שגיאת תקשורת מול השרת");
     }
   };
 
   return (
-    
     <div style={styles.container}>
       <form onSubmit={onSubmit} style={styles.form}>
         <h2 style={styles.title}>התחברות</h2>
@@ -48,6 +47,7 @@ function Login() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           style={styles.input}
+          required
         />
 
         <input
@@ -56,6 +56,7 @@ function Login() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           style={styles.input}
+          required
         />
 
         <button type="submit" style={styles.button}>
@@ -82,6 +83,7 @@ const styles = {
   },
   title: {
     marginBottom: "20px",
+    color: "white",
   },
   input: {
     width: "90%",
@@ -93,7 +95,7 @@ const styles = {
   button: {
     width: "95%",
     padding: "12px",
-    background: "#6f4e37",
+    background: "#4b2e2e",
     color: "white",
     border: "none",
     borderRadius: "6px",

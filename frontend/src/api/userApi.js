@@ -1,5 +1,5 @@
 import SERVER_API from "./serverAddress";
-
+console.log("SERVER_API =", SERVER_API);
 // רישום משתמש חדש
 const register = async ({ data }) => {
   return await fetch(`${SERVER_API}/api/users/register`, {
@@ -10,11 +10,11 @@ const register = async ({ data }) => {
 };
 
 // התחברות משתמש
-const login = async ({ data }) => {
+const login = async (credentials) => {
   return await fetch(`${SERVER_API}/api/users/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
+    body: JSON.stringify(credentials),
   });
 };
 
