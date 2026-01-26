@@ -23,12 +23,16 @@ class Order(db.Model):
         order_dict["order_id"] = self.order_id
         order_dict["user_id"] = self.user_id
         order_dict["created_at"] = self.created_at.strftime("%Y-%m-%d")  # המרה למחרוזת בפורמט תקין
-        order_dict["price"] = self.price
+        order_dict["price"] = float(self.price)
+        order_dict["coffee_id"] =  self.coffee_id
+        return order_dict
+
 
     @staticmethod
     def from_dict(order_dict: dict):
         order_id = order_dict.get("order_id")
-        user_id =  order_dict["order_id"] 
-        created_at = order_dict["created_at"]
+        user_id =  order_dict["user_id"] 
+        created_at = order_dict.get("created_at", datetime.now(timezone.utc))
         price = order_dict["price"]
-        return Order(order_id=order_id, user_id=user_id, created_at=created_at, price=price)
+        coffee_id = order_dict["coffee_id"]
+        return Order(order_id=order_id, user_id=user_id, created_at=created_at, price=price,coffee_id=coffee_id)

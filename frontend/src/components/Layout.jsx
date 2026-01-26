@@ -1,13 +1,14 @@
 import Menu from "./Menu";
+import { Outlet } from "react-router-dom";
 import "./Layout.css";
 
-const Layout = ({ children }) => {
+const Layout = () => {
   return (
     <div className="layout">
       <Menu />
 
       <main className="main-content">
-        {children}
+        <Outlet />
       </main>
     </div>
   );

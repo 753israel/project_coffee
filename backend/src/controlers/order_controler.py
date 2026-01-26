@@ -19,6 +19,24 @@ def add_order(order: Order):
 
     return order
 
+
+def create_order(user_id: int, coffee_id: int):
+    print("CONTROLLER: create_order", user_id, coffee_id)
+
+    # שליפת מחיר הקפה מה־DB
+    coffee = db.session.query(Coffee).filter_by(coffee_id=coffee_id).first()
+
+    if not coffee:
+        raise ValueError("Coffee item does not exist")
+
+    order = Order(
+        user_id=user_id,
+        coffee_id=coffee_id,
+        price=coffee.price  # ← זה מה שהיה חסר
+    )
+
+    return add_order(order)
+
 def get_all_order_by_user(user_id:int):
     user_orders = db.session.query(Order).filter_by(user_id = user_id).all()
     return user_orders
@@ -26,6 +44,17 @@ def get_all_order_by_user(user_id:int):
 def order_from_dict(order_dict: dict):
     return Order.from_dict(order_dict)
 
+def order_to_dict(order: Order):
+    return order.to_dict()
 
 def order_to_dict(order: Order):
-    return Order.to_dict()
+    coffee = db.session.query(Coffee).filter_by(coffee_id=order.coffee_id).first()
+
+    return {
+        "order_id": order.order_id,
+        "user_id": order.user_id,
+        "coffee_id": order.coffee_id,
+        "price": order.price,
+        "created_at": order.created_at,
+        "coffee": coffee.to_dict() if coffee else None
+    }

@@ -1,16 +1,33 @@
 .home-container {
-  padding: 40px 20px;
   text-align: center;
   color: white;
 }
 
-.home-container h1 {
-  font-size: 48px;
-  margin-bottom: 10px;
-  letter-spacing: 2px;
+.home-banner {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* גובה מסך מלא */
+  overflow: hidden;
 }
 
-.home-container p {
-  font-size: 20px;
-  opacity: 0.9;
+.home-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* ממלא את כל המסך */
+}
+
+.banner-text {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0,0,0,0.5);
+  padding: 10px 20px;
+  border-radius: 8px;
+}
+
+.banner-text h1 {
+  color: gold;
+  font-size: 32px;
+  margin: 0;
 }

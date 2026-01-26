@@ -4,6 +4,7 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 from backend.src.routes.user_route import users_bp
 from backend.src.routes.coffee_route import coffee_bp
+from backend.src.routes.order_route import order_coffee_bp
 from backend.database import init_database, create_tables
 
 load_dotenv()
@@ -43,6 +44,7 @@ CORS(app)
 
 app.register_blueprint(users_bp)
 app.register_blueprint(coffee_bp)
+app.register_blueprint(order_coffee_bp)
 
 init_database(app)
 

@@ -1,45 +1,70 @@
 import { Link } from "react-router-dom";
+import { useCart } from "../context/CartContext"; 
+import CartIcon from "./CartIcon";
 import "./Layout.css";
 
 function Menu() {
-  // נקרא את המשתמש ששמרנו בלוגין
   const user = JSON.parse(localStorage.getItem("user"));
+  const { cart } = useCart();
+
+  // סופרים כמה פריטים יש בעגלה
+  const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
 
   return (
-    <nav className="menu">
-      <Link to="/" className="menu-logo">
-        <img src="/coffee_logo.png" alt="logo" />
-      </Link>
+    <nav className="menu-bar">
 
-      <ul className="menu-links">
+      {/* עגלה בצד ימין */}
+      <div className="menu-section right">
+        {user?.role === "regular" && (
+          <Link to="/cart" className="cart-link">
+            <CartIcon />
 
-        {/* --- משתמש לא מחובר --- */}
-        {!user && (
-          <>
-            <li><Link to="/login">כניסה</Link></li>
-            <li><Link to="/register">רישום</Link></li>
-          </>
+            {/* מספר פריטים בעגלה */}
+            {totalItems > 0 && (
+              <span className="cart-badge">{totalItems}</span>
+            )}
+          </Link>
         )}
+      </div>
 
-        {/* --- משתמש רגיל --- */}
-        {user && user.role === "regular" && (
-          <>
-            <li><Link to="/coffee">הקפה שלנו</Link></li>
-            <li><Link to="/search">חיפוש קפה</Link></li>
-            <li><Link to="/logout">יציאה</Link></li>
-          </>
-        )}
+      {/* קישורים במרכז */}
+      <div className="menu-section center">
+        <ul className="menu-links">
+          {!user && (
+            <>
+              <li><Link to="/login">כניסה</Link></li>
+              <li><Link to="/register">רישום</Link></li>
+            </>
+          )}
 
-        {/* --- מנהל --- */}
-        {user && user.role === "admin" && (
-          <>
-            <li><Link to="/coffee">רשימת הקפה</Link></li>
-            <li><Link to="/coffee/new">הוספת קפה</Link></li>
-            <li><Link to="/logout">יציאה</Link></li>
-          </>
-        )}
+          {user?.role === "regular" && (
+            <>
+              <li><Link to="/">בית</Link></li>
+              <li><Link to="/coffee">הקפה שלנו</Link></li>
+              <li><Link to="/menu">תפריט</Link></li>
+              <li><Link to="/orders">ההזמנות שלי</Link></li>
+              <li><Link to="/logout">יציאה</Link></li>
+            </>
+          )}
 
-      </ul>
+          {user?.role === "admin" && (
+            <>
+              <li><Link to="/coffee">רשימת הקפה</Link></li>
+              <li><Link to="/coffee/new">הוספת קפה</Link></li>
+              <li><Link to="/orders">ההזמנות שלי</Link></li>
+              <li><Link to="/logout">יציאה</Link></li>
+            </>
+          )}
+        </ul>
+      </div>
+
+      {/* לוגו בצד שמאל */}
+      <div className="menu-section left">
+        <Link to="/" className="menu-logo">
+          <img src="/coffee_logo.png" alt="logo" />
+        </Link>
+      </div>
+
     </nav>
   );
 }
